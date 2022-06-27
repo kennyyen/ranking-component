@@ -1,9 +1,10 @@
 /**
  * RankList.tsx - the main application file
  */
-import { useCallback, useEffect, useState } from "react";
+import { createRef, useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
-import { useAnimationFrame } from "../../app/hooks";
+import { useAnimationFrame } from "../../hooks/useAnimationFrame";
+import { useMoveRank } from "../../hooks/useMoveRank";
 
 // Typing
 type StreamerType = {
@@ -22,7 +23,9 @@ const STREAMER_DATA_URL = "https://webcdn.17app.co/campaign/pretest/data.json";
 export default function RankList(): React.ReactElement {
   const [streamers, setStreamers] = useState<StreamerArrType>([]);
   const [shouldAnimate, setShouldAnimate] = useState<boolean>(false);
-  // Get new streamre score
+  let listReft = createRef<HTMLDivElement>();
+  // useMoveRank(listReft);
+  // Get new streamer score
   const getNewStreamerScore = useCallback((data: StreamerArrType) => {
     return data.map((streamer: StreamerType) => {
       // 1/5 chance to update
@@ -40,7 +43,6 @@ export default function RankList(): React.ReactElement {
       const result = await fetch(STREAMER_DATA_URL);
       const data = await result.json();
       if (!ignore) {
-        console.log("result: ", data, getNewStreamerScore(data));
         setStreamers(
           getNewStreamerScore(data).sort((a, b) => b.score - a.score)
         );
@@ -65,7 +67,6 @@ export default function RankList(): React.ReactElement {
         })
       );
     } else {
-      console.log("!!!!11111111111111");
       setStreamers((prevState) => getNewStreamerScore(prevState));
     }
   };
@@ -89,15 +90,16 @@ export default function RankList(): React.ReactElement {
     shouldAnimate,
     duration: 1000,
   });
-  return <StyledRankList>{getStreamerList()}</StyledRankList>;
+  return <StyledRankList ref={listReft}>{getStreamerList()}</StyledRankList>;
 }
 
 const StyledRankList = styled.div`
   display: flex;
   flex-direction: column;
-  row-gap: 1rem;
+  gap: 1rem;
   max-width: 320px;
   margin: auto;
+  padding: 1rem;
 `;
 const StyledStreamer = styled.div`
   display: flex;

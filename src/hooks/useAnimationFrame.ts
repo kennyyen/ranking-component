@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useLayoutEffect, useRef } from "react";
 type paramsTypes = {
   nextAnimationFrameHandler: any;
   // we still want to have "infinite" animations in some cases
@@ -18,7 +18,6 @@ export const useAnimationFrame = ({
   const animate = (now: number) => {
     // calculate at what time fraction we are currently of whole time of animation
     let timeFraction = (now - firstFrameTime.current) / duration;
-    // console.log(timeFraction, now, firstFrameTime.current, frame.current);
     if (timeFraction > 1) {
       timeFraction = 1;
     }
@@ -32,8 +31,7 @@ export const useAnimationFrame = ({
     }
   };
 
-  useEffect(() => {
-    console.log("shouldAnimate: ", shouldAnimate);
+  useLayoutEffect(() => {
     if (shouldAnimate) {
       firstFrameTime.current = performance.now();
       frame.current = requestAnimationFrame(animate);

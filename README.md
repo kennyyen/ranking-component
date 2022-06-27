@@ -1,6 +1,97 @@
-# Getting Started with Create React App
+# Rank List
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Introduction
+
+An application with services for displaying real-time update leaderboard
+
+### Technologies used
+
+**React** - "react": "^18.1.0" \
+**Typescript** - "typescript": "^4.6.4" \
+**requestAnimationFrame** - "react": "^18.1.0"
+
+### Challenges
+
+- Time constrain is one of the most challenging item faced during the completion of this project. \
+  - Left rank transition animation not functioning
+  - Left out styling details
+  - Thorough error case handle is also not handled
+
+### Interesting features for future enhancement
+
+- Complete rank transition animation
+
+- Add special animation and styling for top 3 leaders
+
+- On click query/display streamer detail
+
+### Technoloy choices
+
+- #### requetAnimationFrame Hook vs setTimeout/setInterval:
+
+  - requestAnimationFrame performs a lot better than setTimeout/SetInterval
+
+  - Tradeoffs: ease of implementation and code readability/understanding
+
+* #### Typescript:
+
+  - Typescript provide a significant scalling ability to the application, supports typing \
+    better reability and compile time error catching.
+
+  - Tradeoffs: Typescript will require a lot more codes when developing, and type management of \
+    external data will be challenging.
+
+### File Structures
+
+    .
+    │   .gitignore
+    │   package-lock.json
+    │   package.json
+    │   README.md
+    │   tsconfig.json
+    │
+    ├───public
+    │   │   favicon.ico
+    │   │   index.html
+    │   │   logo192.png
+    │   │   logo512.png
+    │   │   manifest.json
+    │   │   robots.txt
+    │   │
+    │   └───images
+    │           food-location.svg
+    │
+    └───src
+        │   App.css
+        │   App.test.tsx
+        │   App.tsx
+        │   index.css
+        │   index.tsx
+        │   react-app-env.d.ts
+        │   reportWebVitals.ts
+        │   setupTests.ts
+        │
+        ├───hooks
+        │       useAnimationFrame.ts
+        │       useMoveRank.ts
+        │
+        └───components
+            └───rankList
+                └───RankList.tsx
+
+## Powered by Create React App
+
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) TS template.
+
+## How to install and run
+
+Recommanded to use React 18 and above, with NodeJS 8.5.5 \
+
+**Note:** as stated above, place replace `REACT_APP_GOOGLE_API_KEY = "Your API Key"` in `.env` before the following steps
+
+1. Run command `npm install` or `npm i`
+2. Rum command `npm run start` or `npm start`
+3. Open a browser, go to [http://localhost:3000](http://localhost:3000) to see the application running
 
 ## Available Scripts
 
@@ -29,18 +120,12 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
 ## Learn More
 
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+## Links
+
+[Kenny Yen - LinkedIn Profile](https://www.linkedin.com/in/kenny-yen-22887451/).
