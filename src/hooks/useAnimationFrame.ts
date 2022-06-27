@@ -18,7 +18,6 @@ export const useAnimationFrame = ({
   const animate = (now: number) => {
     // calculate at what time fraction we are currently of whole time of animation
     let timeFraction = (now - firstFrameTime.current) / duration;
-    // console.log(timeFraction, now, firstFrameTime.current, frame.current);
     if (timeFraction > 1) {
       timeFraction = 1;
     }
@@ -33,7 +32,6 @@ export const useAnimationFrame = ({
   };
 
   useLayoutEffect(() => {
-    console.log("shouldAnimate: ", shouldAnimate);
     if (shouldAnimate) {
       firstFrameTime.current = performance.now();
       frame.current = requestAnimationFrame(animate);

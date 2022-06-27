@@ -9,7 +9,7 @@ export const useMoveRank = (listRef: RefObject<HTMLElement>) => {
     top: start.top - target.top,
   });
   const invert = (delta: Rect, elem: HTMLElement) => {
-    elem.style.transform = `translate(0px, ${delta.top}px)`;
+    elem.style.transform = `translateY(${delta.top}px)`;
     elem.style.transition = `transform 0s`;
   };
   const play = (elem: HTMLElement) => {

@@ -43,7 +43,6 @@ export default function RankList(): React.ReactElement {
       const result = await fetch(STREAMER_DATA_URL);
       const data = await result.json();
       if (!ignore) {
-        console.log("result: ", data, getNewStreamerScore(data));
         setStreamers(
           getNewStreamerScore(data).sort((a, b) => b.score - a.score)
         );
@@ -68,7 +67,6 @@ export default function RankList(): React.ReactElement {
         })
       );
     } else {
-      console.log("!!!!11111111111111");
       setStreamers((prevState) => getNewStreamerScore(prevState));
     }
   };
@@ -98,9 +96,10 @@ export default function RankList(): React.ReactElement {
 const StyledRankList = styled.div`
   display: flex;
   flex-direction: column;
-  row-gap: 1rem;
+  gap: 1rem;
   max-width: 320px;
   margin: auto;
+  padding: 1rem;
 `;
 const StyledStreamer = styled.div`
   display: flex;
