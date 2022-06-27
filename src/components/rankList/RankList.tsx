@@ -1,9 +1,10 @@
 /**
  * RankList.tsx - the main application file
  */
-import { useCallback, useEffect, useState } from "react";
+import { createRef, useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
-import { useAnimationFrame } from "../../app/hooks";
+import { useAnimationFrame } from "../../hooks/useAnimationFrame";
+import AnimatedStreamer from "./animatedStreamer/AnimatedStreamer";
 
 // Typing
 type StreamerType = {
@@ -74,7 +75,7 @@ export default function RankList(): React.ReactElement {
       .sort((a, b) => b.score - a.score)
       .map((streamer: StreamerType, index: number) => {
         return (
-          <StyledStreamer key={streamer.userID}>
+          <StyledStreamer ref={createRef()} key={streamer.userID}>
             <div>{index + 1}</div>
             <StyledAvatar imgUrl={streamer.picture} />
             <div>{streamer.displayName}</div>
@@ -89,7 +90,11 @@ export default function RankList(): React.ReactElement {
     shouldAnimate,
     duration: 1000,
   });
-  return <StyledRankList>{getStreamerList()}</StyledRankList>;
+  return (
+    <StyledRankList>
+      <AnimatedStreamer>{getStreamerList()}</AnimatedStreamer>
+    </StyledRankList>
+  );
 }
 
 const StyledRankList = styled.div`
