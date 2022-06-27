@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useLayoutEffect, useRef } from "react";
 type paramsTypes = {
   nextAnimationFrameHandler: any;
   // we still want to have "infinite" animations in some cases
@@ -32,7 +32,7 @@ export const useAnimationFrame = ({
     }
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     console.log("shouldAnimate: ", shouldAnimate);
     if (shouldAnimate) {
       firstFrameTime.current = performance.now();

@@ -4,7 +4,7 @@
 import { createRef, useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import { useAnimationFrame } from "../../hooks/useAnimationFrame";
-import AnimatedStreamer from "./animatedStreamer/AnimatedStreamer";
+import { useMoveRank } from "../../hooks/useMoveRank";
 
 // Typing
 type StreamerType = {
@@ -23,7 +23,9 @@ const STREAMER_DATA_URL = "https://webcdn.17app.co/campaign/pretest/data.json";
 export default function RankList(): React.ReactElement {
   const [streamers, setStreamers] = useState<StreamerArrType>([]);
   const [shouldAnimate, setShouldAnimate] = useState<boolean>(false);
-  // Get new streamre score
+  let listReft = createRef<HTMLDivElement>();
+  // useMoveRank(listReft);
+  // Get new streamer score
   const getNewStreamerScore = useCallback((data: StreamerArrType) => {
     return data.map((streamer: StreamerType) => {
       // 1/5 chance to update
@@ -75,7 +77,7 @@ export default function RankList(): React.ReactElement {
       .sort((a, b) => b.score - a.score)
       .map((streamer: StreamerType, index: number) => {
         return (
-          <StyledStreamer ref={createRef()} key={streamer.userID}>
+          <StyledStreamer key={streamer.userID}>
             <div>{index + 1}</div>
             <StyledAvatar imgUrl={streamer.picture} />
             <div>{streamer.displayName}</div>
@@ -90,11 +92,7 @@ export default function RankList(): React.ReactElement {
     shouldAnimate,
     duration: 1000,
   });
-  return (
-    <StyledRankList>
-      <AnimatedStreamer>{getStreamerList()}</AnimatedStreamer>
-    </StyledRankList>
-  );
+  return <StyledRankList ref={listReft}>{getStreamerList()}</StyledRankList>;
 }
 
 const StyledRankList = styled.div`
