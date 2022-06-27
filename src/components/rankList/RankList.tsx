@@ -1,5 +1,5 @@
 /**
- * Map.tsx - the main application file
+ * RankList.tsx - the main application file
  */
 import { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
@@ -11,7 +11,7 @@ type StreamerType = {
   displayName: string;
   picture: string;
   score: number;
-  newScore: number;
+  scoreIncrement: number;
 };
 type StreamerArrType = StreamerType[];
 const STREAMER_DATA_URL = "https://webcdn.17app.co/campaign/pretest/data.json";
@@ -21,6 +21,7 @@ const STREAMER_DATA_URL = "https://webcdn.17app.co/campaign/pretest/data.json";
  */
 export default function RankList(): React.ReactElement {
   const [streamers, setStreamers] = useState<StreamerArrType>([]);
+  const [shouldAnimate, setShouldAnimate] = useState<boolean>(false);
   // Get new streamre score
   const getNewStreamerScore = useCallback((data: StreamerArrType) => {
     return data.map((streamer: StreamerType) => {
@@ -28,9 +29,9 @@ export default function RankList(): React.ReactElement {
       if (Math.round(Math.random() * 100) % 5 === 0) {
         // increment within a range of 0 - 1000
         const increaseBy = Math.round(Math.random() * 1000);
-        return { ...streamer, newScore: streamer.score + increaseBy };
+        return { ...streamer, scoreIncrement: increaseBy };
       }
-      return streamer;
+      return { ...streamer, scoreIncrement: 0 };
     });
   }, []);
   useEffect(() => {
@@ -43,6 +44,7 @@ export default function RankList(): React.ReactElement {
         setStreamers(
           getNewStreamerScore(data).sort((a, b) => b.score - a.score)
         );
+        setShouldAnimate(true);
       }
     };
     fetchStreamers();
@@ -53,48 +55,38 @@ export default function RankList(): React.ReactElement {
   // Increment Streamer Score
   const incrementStreamerScore = (progress: number) => {
     if (progress < 1) {
-      setStreamers((prevState) => {
-        return prevState.map((streamer) => {
-          const newStreamer = { ...streamer };
-          if (streamer.newScore && streamer.score !== streamer.newScore) {
-            newStreamer.score = Math.ceil(streamer.newScore * (progress + 1));
-          }
-          return newStreamer;
-        });
-      });
+      setStreamers((prevState) =>
+        prevState.map((streamer) => {
+          return {
+            ...streamer,
+            score:
+              streamer.score + Math.ceil(streamer.scoreIncrement * progress),
+          };
+        })
+      );
     } else {
       console.log("!!!!11111111111111");
-      setStreamers((prevState) => {
-        return prevState.map((streamer) => {
-          const newStreamer = { ...streamer };
-          if (streamer.newScore && streamer.score !== streamer.newScore) {
-            newStreamer.score = streamer.newScore;
-          }
-          setStreamers(getNewStreamerScore(prevState));
-          return newStreamer;
-        });
-      });
-
-      // setStreamers((prevState) => getNewStreamerScore(prevState));
+      setStreamers((prevState) => getNewStreamerScore(prevState));
     }
   };
   const getStreamerList = () => {
-    return streamers.map((streamer: StreamerType, index: number) => {
-      return (
-        <StyledStreamer key={streamer.userID}>
-          <div>{index + 1}</div>
-          <StyledAvatar imgUrl={streamer.picture} />
-          <div>{streamer.displayName}</div>
-          <StyledScore>{`${streamer.score}pt`}</StyledScore>
-        </StyledStreamer>
-      );
-    });
+    return streamers
+      .sort((a, b) => b.score - a.score)
+      .map((streamer: StreamerType, index: number) => {
+        return (
+          <StyledStreamer key={streamer.userID}>
+            <div>{index + 1}</div>
+            <StyledAvatar imgUrl={streamer.picture} />
+            <div>{streamer.displayName}</div>
+            <StyledScore>{`${streamer.score}pt`}</StyledScore>
+          </StyledStreamer>
+        );
+      });
   };
   // Score update
   useAnimationFrame({
     nextAnimationFrameHandler: incrementStreamerScore,
-    // shouldAnimate,
-    shouldAnimate: true,
+    shouldAnimate,
     duration: 1000,
   });
   return <StyledRankList>{getStreamerList()}</StyledRankList>;
@@ -113,7 +105,6 @@ const StyledStreamer = styled.div`
   column-gap: 1rem;
   height: 48px;
   align-items: center;
-  transition: "all 0.3s ease 0s";
 `;
 const StyledAvatar = styled.div<{ imgUrl: string }>(
   ({ imgUrl }) => `
