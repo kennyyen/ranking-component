@@ -75,7 +75,10 @@ export default function RankList(): React.ReactElement {
       .sort((a, b) => b.score - a.score)
       .map((streamer: StreamerType, index: number) => {
         return (
-          <StyledStreamer key={streamer.userID}>
+          <StyledStreamer
+            key={streamer.userID}
+            style={{ top: `${54 * index}px` }}
+          >
             <div>{index + 1}</div>
             <StyledAvatar imgUrl={streamer.picture} />
             <div>{streamer.displayName}</div>
@@ -94,6 +97,7 @@ export default function RankList(): React.ReactElement {
 }
 
 const StyledRankList = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -102,11 +106,14 @@ const StyledRankList = styled.div`
   padding: 1rem;
 `;
 const StyledStreamer = styled.div`
+  position: absolute;
+  transition: all 1s ease 0s;
   display: flex;
   flex-direction: row;
   column-gap: 1rem;
   height: 48px;
   align-items: center;
+  width: 100%;
 `;
 const StyledAvatar = styled.div<{ imgUrl: string }>(
   ({ imgUrl }) => `
