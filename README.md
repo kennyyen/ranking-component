@@ -56,10 +56,7 @@ An application with services for displaying real-time update leaderboard
     │   │   logo192.png
     │   │   logo512.png
     │   │   manifest.json
-    │   │   robots.txt
-    │   │
-    │   └───images
-    │           food-location.svg
+    │   └───robots.txt
     │
     └───src
         │   App.css
