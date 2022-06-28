@@ -12,8 +12,8 @@ An application with services for displaying real-time update leaderboard
 
 ### Challenges
 
-- Time constrain is one of the most challenging item faced during the completion of this project. \
-  - Left rank transition animation not functioning
+- Time constrain is one of the most challenging item faced during the completion of this project
+  - Left out unit test
   - Left out styling details
   - Thorough error case handle is also not handled
 

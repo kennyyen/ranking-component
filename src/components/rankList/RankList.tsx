@@ -203,7 +203,7 @@ const StyledRankList = styled.div`
   flex-direction: column;
   gap: 1rem;
   max-width: 320px;
-  margin: auto;
+  margin: 50px, auto;
   padding: 1rem;
 `;
 const StyledStreamer = styled.div`
