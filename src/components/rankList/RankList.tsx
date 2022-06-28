@@ -43,9 +43,7 @@ export default function RankList(): React.ReactElement {
       const result = await fetch(STREAMER_DATA_URL);
       const data = await result.json();
       if (!ignore) {
-        setStreamers(
-          getNewStreamerScore(data).sort((a, b) => b.score - a.score)
-        );
+        setStreamers(getNewStreamerScore(data));
         setShouldAnimate(true);
       }
     };
@@ -93,7 +91,110 @@ export default function RankList(): React.ReactElement {
     shouldAnimate,
     duration: 1000,
   });
-  return <StyledRankList ref={listReft}>{getStreamerList()}</StyledRankList>;
+  const sortedStreamers = [...streamers].sort((a, b) => b.score - a.score);
+  const newOrder = streamers.map((streamer) => {
+    // find new position in the sorted array
+    return sortedStreamers.findIndex((ele) => {
+      return streamer.userID === ele.userID;
+    });
+  });
+  return streamers?.length > 0 ? (
+    <StyledRankList ref={listReft}>
+      <StyledStreamer
+        key={streamers[0].userID}
+        style={{ top: `${54 * newOrder[0]}px` }}
+      >
+        <div>{newOrder[0] + 1}</div>
+        <StyledAvatar imgUrl={streamers[0].picture} />
+        <div>{streamers[0].displayName}</div>
+        <StyledScore>{`${streamers[0].score}pt`}</StyledScore>
+      </StyledStreamer>
+      <StyledStreamer
+        key={streamers[1].userID}
+        style={{ top: `${54 * newOrder[1]}px` }}
+      >
+        <div>{newOrder[1] + 1}</div>
+        <StyledAvatar imgUrl={streamers[1].picture} />
+        <div>{streamers[1].displayName}</div>
+        <StyledScore>{`${streamers[1].score}pt`}</StyledScore>
+      </StyledStreamer>
+      <StyledStreamer
+        key={streamers[2].userID}
+        style={{ top: `${54 * newOrder[2]}px` }}
+      >
+        <div>{newOrder[2] + 1}</div>
+        <StyledAvatar imgUrl={streamers[2].picture} />
+        <div>{streamers[2].displayName}</div>
+        <StyledScore>{`${streamers[2].score}pt`}</StyledScore>
+      </StyledStreamer>
+      <StyledStreamer
+        key={streamers[3].userID}
+        style={{ top: `${54 * newOrder[3]}px` }}
+      >
+        <div>{newOrder[3] + 1}</div>
+        <StyledAvatar imgUrl={streamers[3].picture} />
+        <div>{streamers[3].displayName}</div>
+        <StyledScore>{`${streamers[3].score}pt`}</StyledScore>
+      </StyledStreamer>
+      <StyledStreamer
+        key={streamers[4].userID}
+        style={{ top: `${54 * newOrder[4]}px` }}
+      >
+        <div>{newOrder[4] + 1}</div>
+        <StyledAvatar imgUrl={streamers[4].picture} />
+        <div>{streamers[4].displayName}</div>
+        <StyledScore>{`${streamers[4].score}pt`}</StyledScore>
+      </StyledStreamer>
+      <StyledStreamer
+        key={streamers[5].userID}
+        style={{ top: `${54 * newOrder[5]}px` }}
+      >
+        <div>{newOrder[5] + 1}</div>
+        <StyledAvatar imgUrl={streamers[5].picture} />
+        <div>{streamers[5].displayName}</div>
+        <StyledScore>{`${streamers[5].score}pt`}</StyledScore>
+      </StyledStreamer>
+      <StyledStreamer
+        key={streamers[6].userID}
+        style={{ top: `${54 * newOrder[6]}px` }}
+      >
+        <div>{newOrder[6] + 1}</div>
+        <StyledAvatar imgUrl={streamers[6].picture} />
+        <div>{streamers[6].displayName}</div>
+        <StyledScore>{`${streamers[6].score}pt`}</StyledScore>
+      </StyledStreamer>
+      <StyledStreamer
+        key={streamers[7].userID}
+        style={{ top: `${54 * newOrder[7]}px` }}
+      >
+        <div>{newOrder[7] + 1}</div>
+        <StyledAvatar imgUrl={streamers[7].picture} />
+        <div>{streamers[7].displayName}</div>
+        <StyledScore>{`${streamers[7].score}pt`}</StyledScore>
+      </StyledStreamer>
+      <StyledStreamer
+        key={streamers[8].userID}
+        style={{ top: `${54 * newOrder[8]}px` }}
+      >
+        <div>{newOrder[8] + 1}</div>
+        <StyledAvatar imgUrl={streamers[8].picture} />
+        <div>{streamers[8].displayName}</div>
+        <StyledScore>{`${streamers[8].score}pt`}</StyledScore>
+      </StyledStreamer>
+      <StyledStreamer
+        key={streamers[9].userID}
+        style={{ top: `${54 * newOrder[9]}px` }}
+      >
+        <div>{newOrder[9] + 1}</div>
+        <StyledAvatar imgUrl={streamers[9].picture} />
+        <div>{streamers[9].displayName}</div>
+        <StyledScore>{`${streamers[9].score}pt`}</StyledScore>
+      </StyledStreamer>
+    </StyledRankList>
+  ) : (
+    <></>
+  );
+  // return <StyledRankList ref={listReft}>{getStreamerList()}</StyledRankList>;
 }
 
 const StyledRankList = styled.div`
