@@ -70,7 +70,6 @@ An application with services for displaying real-time update leaderboard
         │
         ├───hooks
         │       useAnimationFrame.ts
-        │       useMoveRank.ts
         │
         └───components
             └───rankList

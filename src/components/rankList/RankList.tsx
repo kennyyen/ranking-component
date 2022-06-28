@@ -1,10 +1,9 @@
 /**
  * RankList.tsx - the main application file
  */
-import { createRef, useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import { useAnimationFrame } from "../../hooks/useAnimationFrame";
-import { useMoveRank } from "../../hooks/useMoveRank";
 
 // Typing
 type StreamerType = {
@@ -15,6 +14,7 @@ type StreamerType = {
   scoreIncrement: number;
 };
 type StreamerArrType = StreamerType[];
+// Constants
 const STREAMER_DATA_URL = "https://webcdn.17app.co/campaign/pretest/data.json";
 /**
  * RankList component
@@ -23,9 +23,10 @@ const STREAMER_DATA_URL = "https://webcdn.17app.co/campaign/pretest/data.json";
 export default function RankList(): React.ReactElement {
   const [streamers, setStreamers] = useState<StreamerArrType>([]);
   const [shouldAnimate, setShouldAnimate] = useState<boolean>(false);
-  let listReft = createRef<HTMLDivElement>();
-  // useMoveRank(listReft);
-  // Get new streamer score
+
+  /**
+   * Get new streamer score
+   */
   const getNewStreamerScore = useCallback((data: StreamerArrType) => {
     return data.map((streamer: StreamerType) => {
       // 1/5 chance to update
@@ -37,6 +38,7 @@ export default function RankList(): React.ReactElement {
       return { ...streamer, scoreIncrement: 0 };
     });
   }, []);
+  // initial data fetch to get streamer info from server
   useEffect(() => {
     let ignore = false;
     const fetchStreamers = async () => {
@@ -68,29 +70,13 @@ export default function RankList(): React.ReactElement {
       setStreamers((prevState) => getNewStreamerScore(prevState));
     }
   };
-  const getStreamerList = () => {
-    return streamers
-      .sort((a, b) => b.score - a.score)
-      .map((streamer: StreamerType, index: number) => {
-        return (
-          <StyledStreamer
-            key={streamer.userID}
-            style={{ top: `${54 * index}px` }}
-          >
-            <div>{index + 1}</div>
-            <StyledAvatar imgUrl={streamer.picture} />
-            <div>{streamer.displayName}</div>
-            <StyledScore>{`${streamer.score}pt`}</StyledScore>
-          </StyledStreamer>
-        );
-      });
-  };
-  // Score update
+  // Score updates with requestAnimationFrame
   useAnimationFrame({
     nextAnimationFrameHandler: incrementStreamerScore,
     shouldAnimate,
     duration: 1000,
   });
+  // calculate new rankings
   const sortedStreamers = [...streamers].sort((a, b) => b.score - a.score);
   const newOrder = streamers.map((streamer) => {
     // find new position in the sorted array
@@ -98,8 +84,13 @@ export default function RankList(): React.ReactElement {
       return streamer.userID === ele.userID;
     });
   });
+
+  /**
+   * List out all entries so React does not recreate them
+   * and break the transition animation
+   */
   return streamers?.length > 0 ? (
-    <StyledRankList ref={listReft}>
+    <StyledRankList>
       <StyledStreamer
         key={streamers[0].userID}
         style={{ top: `${54 * newOrder[0]}px` }}
@@ -194,7 +185,6 @@ export default function RankList(): React.ReactElement {
   ) : (
     <></>
   );
-  // return <StyledRankList ref={listReft}>{getStreamerList()}</StyledRankList>;
 }
 
 const StyledRankList = styled.div`
@@ -203,7 +193,7 @@ const StyledRankList = styled.div`
   flex-direction: column;
   gap: 1rem;
   max-width: 320px;
-  margin: 50px, auto;
+  margin: 50px auto;
   padding: 1rem;
 `;
 const StyledStreamer = styled.div`
